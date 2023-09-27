@@ -5,7 +5,7 @@ const spaceGrotesk = Space_Grotesk({ subsets: ['latin'] });
 
 const Hero = () => {
   return (
-    <section className='section-padding container grid min-h-screen grid-rows-2'>
+    <section className='section-padding container grid min-h-screen grid-rows-2 gap-10'>
       {/* TOP */}
       <div className='grid h-full w-full grid-cols-[20rem_auto_30rem] gap-5'>
         {/* LEFT */}
@@ -48,7 +48,64 @@ const Hero = () => {
       </div>
 
       {/* BOTTOM */}
-      <div className='h-full w-full border border-black'>gg</div>
+      <div className='grid h-full w-full grid-cols-[20rem_auto] gap-5'>
+        {/* LEFT */}
+        <div className='flex h-full w-full flex-col justify-center gap-10'>
+          <div>
+            <h2>12.5K+</h2>
+            <h6>Happy Customers</h6>
+          </div>
+          <div>
+            <h2>64</h2>
+            <h6>Locations</h6>
+          </div>
+          <div>
+            <h2>15K+</h2>
+            <h6>Followers</h6>
+          </div>
+        </div>
+
+        {/* RIGHT */}
+        <div className='grid h-full w-full grid-cols-2 gap-10'>
+          <div className='grid h-full w-full grid-cols-2 gap-5'>
+            <div className='h-full w-full overflow-hidden rounded-[8.375rem]'>
+              <Image
+                src='https://images.pexels.com/photos/2679814/pexels-photo-2679814.jpeg?auto=compress&cs=tinysrgb&w=1600'
+                alt='Two Person Walking on Unpaved Road'
+                width={360}
+                height={640}
+                priority
+                className='h-full w-full object-cover'
+              />
+            </div>
+            <div className='flex h-full w-full flex-col justify-center gap-5'>
+              <h4 className={spaceGrotesk.className}>
+                Adventure with Confidence
+              </h4>
+              <h6>Enjoy thrilling adventures with peace of mind.</h6>
+            </div>
+          </div>
+
+          <div className='grid h-full w-full grid-cols-2 gap-5'>
+            <div className='h-full w-full overflow-hidden rounded-[8.375rem]'>
+              <Image
+                src='https://images.pexels.com/photos/2679814/pexels-photo-2679814.jpeg?auto=compress&cs=tinysrgb&w=1600'
+                alt='Two Person Walking on Unpaved Road'
+                width={360}
+                height={640}
+                priority
+                className='h-full w-full object-cover'
+              />
+            </div>
+            <div className='flex h-full w-full flex-col justify-center gap-5'>
+              <h4 className={spaceGrotesk.className}>
+                Adventure with Confidence
+              </h4>
+              <h6>Enjoy thrilling adventures with peace of mind.</h6>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   );
 };

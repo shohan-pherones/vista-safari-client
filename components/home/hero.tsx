@@ -10,14 +10,14 @@ const Hero = () => {
       <div className='grid h-full w-full grid-cols-[20rem_auto_30rem] gap-5'>
         {/* LEFT */}
         <div className='flex h-full w-full items-center'>
-          <div className='h-[15rem] w-[15rem] overflow-hidden rounded-full'>
+          <div className='eq group h-[15rem] w-[15rem] overflow-hidden rounded-full hover:scale-90'>
             <Image
               src='https://images.pexels.com/photos/697244/pexels-photo-697244.jpeg?auto=compress&cs=tinysrgb&w=1600'
               alt='Four Person Standing at Top of Grassy Mountain'
               width={640}
               height={640}
               priority
-              className='h-full w-full object-cover'
+              className='eq h-full w-full object-cover group-hover:scale-125'
             />
           </div>
         </div>
@@ -34,14 +34,14 @@ const Hero = () => {
 
         {/* RIGHT */}
         <div className='flex h-full w-full items-center'>
-          <div className='h-[30rem] w-full overflow-hidden rounded-full'>
+          <div className='eq group h-[30rem] w-full overflow-hidden rounded-full hover:scale-90'>
             <Image
               src='https://images.pexels.com/photos/2679814/pexels-photo-2679814.jpeg?auto=compress&cs=tinysrgb&w=1600'
               alt='Two Person Walking on Unpaved Road'
               width={768}
               height={768}
               priority
-              className='h-full w-full object-cover'
+              className='eq h-full w-full object-cover group-hover:scale-125'
             />
           </div>
         </div>
@@ -68,14 +68,14 @@ const Hero = () => {
         {/* RIGHT */}
         <div className='grid h-full w-full grid-cols-2 gap-10'>
           <div className='grid h-full w-full grid-cols-2 gap-5'>
-            <div className='h-full w-full overflow-hidden rounded-[8.375rem]'>
+            <div className='eq group h-full w-full overflow-hidden rounded-[8.375rem] hover:scale-90'>
               <Image
-                src='https://images.pexels.com/photos/2679814/pexels-photo-2679814.jpeg?auto=compress&cs=tinysrgb&w=1600'
-                alt='Two Person Walking on Unpaved Road'
+                src='https://images.pexels.com/photos/7625040/pexels-photo-7625040.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+                alt='People Hiking in a Forest'
                 width={360}
                 height={640}
                 priority
-                className='h-full w-full object-cover'
+                className='eq h-full w-full object-cover group-hover:scale-125'
               />
             </div>
             <div className='flex h-full w-full flex-col justify-center gap-5'>
@@ -87,21 +87,23 @@ const Hero = () => {
           </div>
 
           <div className='grid h-full w-full grid-cols-2 gap-5'>
-            <div className='h-full w-full overflow-hidden rounded-[8.375rem]'>
+            <div className='eq group h-full w-full overflow-hidden rounded-[8.375rem] hover:scale-90'>
               <Image
-                src='https://images.pexels.com/photos/2679814/pexels-photo-2679814.jpeg?auto=compress&cs=tinysrgb&w=1600'
-                alt='Two Person Walking on Unpaved Road'
+                src='https://images.pexels.com/photos/9586538/pexels-photo-9586538.jpeg?auto=compress&cs=tinysrgb&w=1600'
+                alt='Women Running on a Field while Holding Hands'
                 width={360}
                 height={640}
                 priority
-                className='h-full w-full object-cover'
+                className='eq h-full w-full object-cover group-hover:scale-125'
               />
             </div>
             <div className='flex h-full w-full flex-col justify-center gap-5'>
               <h4 className={spaceGrotesk.className}>
-                Adventure with Confidence
+                Unbeatable Value Adventures
               </h4>
-              <h6>Enjoy thrilling adventures with peace of mind.</h6>
+              <h6>
+                Discover incredible experiences without breaking the bank.
+              </h6>
             </div>
           </div>
         </div>

@@ -7,6 +7,10 @@
   @apply py-20;
 }
 
+.eq {
+  transition: 500ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
 /* TYPOGRAPHY STYLES */
 h1 {
   @apply text-8xl font-semibold;

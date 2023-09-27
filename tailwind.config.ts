@@ -16,7 +16,7 @@ const config: Config = {
     },
     extend: {
       colors: {
-        white: '#e5e3dc',
+        white: '#fdfef8',
         cream: '#dbd8cc',
         sherd: '#6b576a',
         envy: '#8ca791',

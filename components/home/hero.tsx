@@ -1,13 +1,25 @@
+'use client';
+
 import Image from 'next/image';
 import { Space_Grotesk } from 'next/font/google';
 import { FaMapLocationDot } from 'react-icons/fa6';
 import Link from 'next/link';
+import { useScrollContext } from '@/contexts/scroll-context';
+import { useEffect } from 'react';
+import { cn } from '@/lib/utils';
 
 const spaceGrotesk = Space_Grotesk({ subsets: ['latin'] });
 
 const Hero = () => {
+  const { isScrolled } = useScrollContext();
+
   return (
-    <section className='section-padding container relative grid min-h-screen grid-rows-2 gap-10'>
+    <section
+      className={cn(
+        'section-padding container relative grid min-h-screen grid-rows-2 gap-10',
+        isScrolled && 'mt-20'
+      )}
+    >
       {/* TOP */}
       <div className='grid h-full w-full grid-cols-[20rem_auto_30rem] gap-5'>
         {/* LEFT */}

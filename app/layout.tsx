@@ -2,6 +2,7 @@ import { cn } from '@/lib/utils';
 import type { Metadata } from 'next';
 import { Bai_Jamjuree } from 'next/font/google';
 import './globals.css';
+import ScrollProvider from '@/providers/scroll-provider';
 
 const baiJamjuree = Bai_Jamjuree({
   subsets: ['latin'],
@@ -22,7 +23,7 @@ export default function RootLayout({
       <body
         className={cn(baiJamjuree.className, 'bg-white text-black antialiased')}
       >
-        {children}
+        <ScrollProvider>{children}</ScrollProvider>
       </body>
     </html>
   );

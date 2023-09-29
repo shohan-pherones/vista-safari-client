@@ -1,5 +1,13 @@
+'use client';
+
+import { buttonVariants } from '@/components/ui/button';
 import CustomLink from '@/components/ui/custom-link';
+import { useScrollContext } from '@/contexts/scroll-context';
+import { cn } from '@/lib/utils';
 import { menuType } from '@/types/menu';
+import Link from 'next/link';
+import { useState } from 'react';
+import SearchBar from './search-bar';
 
 const menuItems = [
   {
@@ -30,8 +38,18 @@ const menuItems = [
 ];
 
 const NavbarFull = () => {
+  const [shouldSearchBarShown, setShouldSearchBarShown] =
+    useState<boolean>(false);
+
+  const { isScrolled } = useScrollContext();
+
   return (
-    <header className='flex h-20 items-center'>
+    <header
+      className={cn(
+        'eq flex h-20 items-center',
+        isScrolled && 'fixed left-0 right-0 top-0 z-[100] w-full bg-cream'
+      )}
+    >
       <div className='container grid grid-cols-3 items-center gap-5'>
         <nav>
           <ul>
@@ -59,9 +77,14 @@ const NavbarFull = () => {
           </ul>
         </nav>
 
-        <nav className='flex justify-end gap-5 uppercase'>
-          <span>Search</span>
-          <span>Sign In</span>
+        <nav className='flex items-center justify-end gap-5 uppercase'>
+          <SearchBar
+            shouldSearchBarShown={shouldSearchBarShown}
+            setShouldSearchBarShown={setShouldSearchBarShown}
+          />
+          <Link href='/sign-in' className={buttonVariants()}>
+            Sign In
+          </Link>
         </nav>
       </div>
     </header>

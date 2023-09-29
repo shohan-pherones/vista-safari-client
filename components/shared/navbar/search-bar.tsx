@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
 
 interface SearchBarProps {
@@ -11,13 +11,22 @@ const SearchBar: React.FC<SearchBarProps> = ({
   setShouldSearchBarShown,
   shouldSearchBarShown,
 }) => {
+  const [searchQuery, setSearchQuery] = useState<string>('');
+
   const handleToggleSearchBar = useCallback(() => {
     setShouldSearchBarShown(!shouldSearchBarShown);
   }, [setShouldSearchBarShown, shouldSearchBarShown]);
 
+  const handleSearchSubmit = useCallback(async (e: React.SyntheticEvent) => {
+    e.preventDefault();
+  }, []);
+
   return (
     <div className='w-full'>
-      <form className='relative flex w-full items-center justify-end'>
+      <form
+        onSubmit={handleSearchSubmit}
+        className='relative flex w-full items-center justify-end'
+      >
         <span
           onClick={handleToggleSearchBar}
           className={cn(
@@ -29,6 +38,8 @@ const SearchBar: React.FC<SearchBarProps> = ({
         </span>
         {shouldSearchBarShown && (
           <input
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
             type='text'
             placeholder='Search your destinations'
             className='eq w-full rounded-xl border border-black/20 bg-transparent py-3 pl-[72px] pr-6 outline-none placeholder:text-black/40 focus:border-black/60'

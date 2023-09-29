@@ -1,13 +1,13 @@
 'use client';
 
-import { buttonVariants } from '@/components/ui/button';
+import Link from 'next/link';
 import CustomLink from '@/components/ui/custom-link';
+import SearchBar from './search-bar';
+import { buttonVariants } from '@/components/ui/button';
 import { useScrollContext } from '@/contexts/scroll-context';
 import { cn } from '@/lib/utils';
 import { menuType } from '@/types/menu';
-import Link from 'next/link';
 import { useState } from 'react';
-import SearchBar from './search-bar';
 
 const menuItems = [
   {
@@ -18,22 +18,7 @@ const menuItems = [
   {
     id: '2',
     title: 'Destinations',
-    href: '/',
-  },
-  {
-    id: '3',
-    title: 'About',
-    href: '/',
-  },
-  {
-    id: '4',
-    title: 'Contact',
-    href: '/',
-  },
-  {
-    id: '5',
-    title: 'Clients',
-    href: '/',
+    href: '/destinations',
   },
 ];
 

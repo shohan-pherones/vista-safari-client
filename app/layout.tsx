@@ -1,8 +1,8 @@
 import { cn } from '@/lib/utils';
 import type { Metadata } from 'next';
 import { Bai_Jamjuree } from 'next/font/google';
-import './globals.css';
 import ScrollProvider from '@/providers/scroll-provider';
+import './globals.css';
 
 const baiJamjuree = Bai_Jamjuree({
   subsets: ['latin'],

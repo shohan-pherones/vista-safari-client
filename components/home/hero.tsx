@@ -1,25 +1,15 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { Space_Grotesk } from 'next/font/google';
 import { FaMapLocationDot } from 'react-icons/fa6';
-import Link from 'next/link';
-import { useScrollContext } from '@/contexts/scroll-context';
-import { useEffect } from 'react';
-import { cn } from '@/lib/utils';
 
 const spaceGrotesk = Space_Grotesk({ subsets: ['latin'] });
 
 const Hero = () => {
-  const { isScrolled } = useScrollContext();
-
   return (
-    <section
-      className={cn(
-        'section-padding container relative grid min-h-screen grid-rows-2 gap-10',
-        isScrolled && 'mt-20'
-      )}
-    >
+    <section className='section-padding container relative grid min-h-screen grid-rows-2 gap-10'>
       {/* TOP */}
       <div className='grid h-full w-full grid-cols-[20rem_auto_30rem] gap-5'>
         {/* LEFT */}
@@ -125,7 +115,7 @@ const Hero = () => {
 
       {/* CTA BUTTON */}
       <Link
-        href='/'
+        href='/#destinations'
         className='eq group absolute left-1/2 top-1/2 z-[1] h-28 w-28 -translate-x-1/2 -translate-y-1/2 cursor-pointer overflow-hidden rounded-full bg-gradient-to-tr from-black to-black/80 hover:w-72'
       >
         <span className='eq absolute left-1/2 top-1/2 z-[2] -translate-x-1/2 -translate-y-1/2 text-5xl text-white group-hover:left-10 group-hover:text-3xl'>

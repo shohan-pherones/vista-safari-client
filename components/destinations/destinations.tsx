@@ -6,7 +6,6 @@ import LocationCard from './location-card';
 import { locationType } from '@/types/location';
 import Link from 'next/link';
 import { buttonVariants } from '../ui/button';
-import { cn } from '@/lib/utils';
 
 interface DestinationsProps {
   fromThePage?: boolean;
@@ -29,24 +28,20 @@ const Destinations: React.FC<DestinationsProps> = ({ fromThePage }) => {
             destinations
               .slice(0, 8)
               .map((location: locationType, index: number) => (
-                <>
-                  <LocationCard
-                    key={location._id}
-                    location={location}
-                    index={index}
-                  />
-                </>
-              ))}
-
-          {fromThePage &&
-            destinations.map((location: locationType, index: number) => (
-              <>
                 <LocationCard
                   key={location._id}
                   location={location}
                   index={index}
                 />
-              </>
+              ))}
+
+          {fromThePage &&
+            destinations.map((location: locationType, index: number) => (
+              <LocationCard
+                key={location._id}
+                location={location}
+                index={index}
+              />
             ))}
         </div>
       )}

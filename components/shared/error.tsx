@@ -1,11 +1,12 @@
 interface ErrorProps {
   error: string;
+  bigFont?: boolean;
 }
 
-const Error: React.FC<ErrorProps> = ({ error }) => {
+const Error: React.FC<ErrorProps> = ({ error, bigFont }) => {
   return (
     <div className='text-center text-red-600'>
-      <p>{error}</p>
+      <p className={bigFont ? 'text-2xl' : 'text-lg'}>{error}</p>
     </div>
   );
 };

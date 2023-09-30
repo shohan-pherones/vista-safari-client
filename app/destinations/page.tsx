@@ -13,7 +13,7 @@ const DestinationsPage = () => {
     <>
       <NavbarFull />
       <main className={cn(isScrolled ? 'mt-20' : 'mt-0')}>
-        <Destinations />
+        <Destinations fromThePage />
       </main>
       <FooterMini />
     </>

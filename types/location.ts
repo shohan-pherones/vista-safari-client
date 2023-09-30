@@ -6,6 +6,8 @@ import { tourPackageType } from './tour-package';
 export type locationType = {
   _id: string;
   name: string;
+  photoUrl: string;
+  description: string;
   tourPackages: tourPackageType[];
   resorts: resortType[];
   restaurants: restaurantType[];

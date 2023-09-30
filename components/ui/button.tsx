@@ -2,12 +2,16 @@ import { cva, VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 
 export const buttonVariants = cva(
-  'inline-block text-center px-6 py-3 rounded-xl border eq font-medium active:scale-105 disabled:border-shred disabled:bg-sherd disabled:text-white disabled:cursor-not-allowed whitespace-nowrap',
+  'inline-block text-center px-6 py-3 rounded-xl border eq font-medium active:scale-105 disabled:border-shred disabled:bg-sherd disabled:text-white disabled:cursor-not-allowed whitespace-nowrap uppercase',
   {
     variants: {
       variant: {
         primary:
           'border-envy bg-envy text-black hover:border-envy/90 hover:bg-envy/90',
+        secondary:
+          'border-envy bg-transparent text-black hover:border-envy/90 hover:bg-envy/90',
+        danger:
+          'border-sherd bg-sherd text-white hover:border-sherd/90 hover:bg-sherd/90',
       },
       size: {
         auto: 'w-auto',

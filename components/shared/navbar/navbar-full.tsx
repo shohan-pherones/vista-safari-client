@@ -3,11 +3,15 @@
 import Link from 'next/link';
 import CustomLink from '@/components/ui/custom-link';
 import SearchBar from './search-bar';
-import { buttonVariants } from '@/components/ui/button';
+import Button, { buttonVariants } from '@/components/ui/button';
 import { useScrollContext } from '@/contexts/scroll-context';
 import { cn } from '@/lib/utils';
 import { menuType } from '@/types/menu';
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
+import Image from 'next/image';
+import { logout } from '@/redux/features/auth/authSlice';
 
 const menuItems = [
   {
@@ -25,8 +29,13 @@ const menuItems = [
 const NavbarFull = () => {
   const [shouldSearchBarShown, setShouldSearchBarShown] =
     useState<boolean>(false);
+  const [shouldProfileMenuShown, setShouldProfileMenuShown] =
+    useState<boolean>(false);
 
   const { isScrolled } = useScrollContext();
+  const auth = useSelector((state: RootState) => state.auth.fullUser);
+
+  const dispatch = useDispatch();
 
   return (
     <header
@@ -67,9 +76,41 @@ const NavbarFull = () => {
             shouldSearchBarShown={shouldSearchBarShown}
             setShouldSearchBarShown={setShouldSearchBarShown}
           />
-          <Link href='/sign-in' className={buttonVariants()}>
-            Sign In
-          </Link>
+
+          {!auth && (
+            <Link href='/sign-in' className={buttonVariants()}>
+              Sign In
+            </Link>
+          )}
+
+          {auth && auth?.user && (
+            <div className='relative'>
+              <button
+                onClick={() =>
+                  setShouldProfileMenuShown(!shouldProfileMenuShown)
+                }
+                className='eq group inline-block h-10 w-10 overflow-hidden rounded-full active:scale-105'
+              >
+                <Image
+                  src={auth.user.photoUrl!}
+                  alt={auth.user.name!}
+                  width={128}
+                  height={128}
+                  priority
+                  className='eq h-full w-full object-cover  group-hover:brightness-75'
+                />
+              </button>
+
+              {/* PROFILE MENU POP-UP */}
+              {shouldProfileMenuShown && (
+                <div className='absolute right-0 top-full z-[1] flex flex-col gap-3 rounded-xl border bg-white p-7 shadow-lg'>
+                  <Button onClick={() => dispatch(logout())} variant='danger'>
+                    Sign out
+                  </Button>
+                </div>
+              )}
+            </div>
+          )}
         </nav>
       </div>
     </header>

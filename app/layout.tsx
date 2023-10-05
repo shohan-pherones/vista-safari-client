@@ -3,6 +3,8 @@ import type { Metadata } from 'next';
 import { Bai_Jamjuree } from 'next/font/google';
 import ScrollProvider from '@/providers/scroll-provider';
 import './globals.css';
+import { Toaster } from 'react-hot-toast';
+import ReduxProvider from '@/providers/redux-provider';
 
 const baiJamjuree = Bai_Jamjuree({
   subsets: ['latin'],
@@ -23,7 +25,12 @@ export default function RootLayout({
       <body
         className={cn(baiJamjuree.className, 'bg-white text-black antialiased')}
       >
-        <ScrollProvider>{children}</ScrollProvider>
+        <ReduxProvider>
+          <ScrollProvider>
+            <Toaster position='bottom-left' />
+            {children}
+          </ScrollProvider>
+        </ReduxProvider>
       </body>
     </html>
   );

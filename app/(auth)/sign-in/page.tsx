@@ -16,6 +16,16 @@ import Link from 'next/link';
 import FooterMini from '@/components/shared/footer/footer-mini';
 import NavbarMini from '@/components/shared/navbar/navbar-mini';
 import Button from '@/components/ui/button';
+import { axiosPost } from '@/lib/axios-post';
+import { useRouter } from 'next/navigation';
+import { toast } from 'react-hot-toast';
+import {
+  emailPasswordValidator,
+  emailPasswordValidatorType,
+} from '@/validators/email-password-validator';
+import { useDispatch } from 'react-redux';
+import { fullUserType } from '@/types/full-user';
+import { login } from '@/redux/features/auth/authSlice';
 
 interface FormData {
   email: string;
@@ -30,6 +40,9 @@ const SignInPage = () => {
   const [formSubmitted, setFormSubmitted] = useState<boolean>(false);
 
   const { isScrolled } = useScrollContext();
+
+  const router = useRouter();
+  const dispath = useDispatch();
 
   const formSubject = useRef<Subject<void>>(new Subject<void>());
   const formSubscription = useRef<Subscription | null>(null);
@@ -46,13 +59,30 @@ const SignInPage = () => {
         distinctUntilChanged(),
         takeUntil(formSubject.current)
       )
-      .subscribe(() => {
-        console.log(formData);
-        setFormData({
-          email: '',
-          password: '',
-        });
-        setFormSubmitted(true);
+      .subscribe(async () => {
+        const { isValid, message }: emailPasswordValidatorType =
+          emailPasswordValidator(formData.email, formData.password);
+
+        if (isValid) {
+          const data: fullUserType = await axiosPost(
+            '/api/users/login',
+            formData
+          );
+
+          if (data) {
+            dispath(login(data));
+            router.push('/');
+            toast.success('Login success');
+            setFormData({
+              email: '',
+              password: '',
+            });
+            setFormSubmitted(true);
+          }
+        } else {
+          message.email && toast.error(message.email);
+          message.password && toast.error(message.password);
+        }
       });
 
     return () => {
@@ -61,7 +91,7 @@ const SignInPage = () => {
       }
       subjectRef.complete();
     };
-  }, [formData]);
+  }, [formData, router, dispath]);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -77,8 +107,8 @@ const SignInPage = () => {
     <>
       <NavbarMini />
       <main className={cn(isScrolled ? 'mt-20' : 'mt-0')}>
-        <section className=' grid min-h-screen grid-cols-7 '>
-          <div className='col-span-3 h-full w-full overflow-hidden'>
+        <section className='grid min-h-screen grid-cols-1 lg:grid-cols-7'>
+          <div className='hidden h-full w-full overflow-hidden lg:col-span-3 lg:block'>
             <div className='relative h-full w-full overflow-hidden'>
               <div className='absolute bottom-0 left-0 right-0 top-0 z-[1] h-full w-full bg-gradient-to-b from-black/50 to-transparent'></div>
               <div className='absolute bottom-0 left-0 right-0 top-0 z-[2] h-full w-full px-20 pt-40 text-center text-white/80'>
@@ -99,7 +129,7 @@ const SignInPage = () => {
             </div>
           </div>
 
-          <div className='col-span-4 flex h-full w-full justify-center  px-20 pt-40'>
+          <div className='flex h-full w-full justify-center px-20 pt-20 lg:col-span-4 lg:pt-40'>
             <form id='form' className='h-full w-1/2 ' onSubmit={handleSubmit}>
               <h4>Welcome back!</h4>
               <p className='mb-5 text-black/30'>Please enter your deatils</p>

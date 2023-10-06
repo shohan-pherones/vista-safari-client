@@ -35,6 +35,6 @@ export const axiosPost = async (
       return res.data;
     }
   } catch (error: any) {
-    toast.error(error.response?.data.error);
+    toast.error(error.response?.data?.message);
   }
 };

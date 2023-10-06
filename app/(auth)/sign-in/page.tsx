@@ -170,7 +170,7 @@ const SignInPage = () => {
                   />
                 </div>
               </div>
-              <Button type='submit' size={'full'}>
+              <Button type='submit' size='full'>
                 Login
               </Button>
               <p className='mt-2.5'>

@@ -1,19 +1,16 @@
-export const emailPasswordValidator = (email: string, password: string) => {
+export const loginValidator = (email: string, password: string) => {
   const message = {
     email: '',
     password: '',
   };
 
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-  const isEmailValid = emailRegex.test(email);
-
+  const isEmailValid: boolean = emailRegex.test(email);
   if (!isEmailValid) {
     message.email = 'Invalid email address';
   }
 
-  const isPasswordValid = password.length >= 8;
-
+  const isPasswordValid: boolean = password.length >= 8;
   if (!isPasswordValid) {
     message.password = 'Password must be 8+ chars';
   }
@@ -25,7 +22,7 @@ export const emailPasswordValidator = (email: string, password: string) => {
   return { isValid: false, message };
 };
 
-export type emailPasswordValidatorType = {
+export type loginValidatorType = {
   isValid: boolean;
   message: {
     email: string;

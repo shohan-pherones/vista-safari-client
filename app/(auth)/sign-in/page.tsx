@@ -20,9 +20,9 @@ import { axiosPost } from '@/lib/axios-post';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
 import {
-  emailPasswordValidator,
-  emailPasswordValidatorType,
-} from '@/validators/email-password-validator';
+  loginValidator,
+  loginValidatorType,
+} from '@/validators/login-validator';
 import { useDispatch } from 'react-redux';
 import { fullUserType } from '@/types/full-user';
 import { login } from '@/redux/features/auth/authSlice';
@@ -60,8 +60,10 @@ const SignInPage = () => {
         takeUntil(formSubject.current)
       )
       .subscribe(async () => {
-        const { isValid, message }: emailPasswordValidatorType =
-          emailPasswordValidator(formData.email, formData.password);
+        const { isValid, message }: loginValidatorType = loginValidator(
+          formData.email,
+          formData.password
+        );
 
         if (isValid) {
           const data: fullUserType = await axiosPost(

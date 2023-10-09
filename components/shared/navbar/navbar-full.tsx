@@ -84,32 +84,57 @@ const NavbarFull = () => {
           )}
 
           {auth && auth?.user && (
-            <div className='relative'>
-              <button
-                onClick={() =>
-                  setShouldProfileMenuShown(!shouldProfileMenuShown)
-                }
-                className='eq group inline-block h-10 w-10 overflow-hidden rounded-full active:scale-105'
-              >
-                <Image
-                  src={auth.user.photoUrl!}
-                  alt={auth.user.name!}
-                  width={128}
-                  height={128}
-                  priority
-                  className='eq h-full w-full object-cover  group-hover:brightness-75'
-                />
-              </button>
+            <>
+              <div className='relative'>
+                <button
+                  onClick={() =>
+                    setShouldProfileMenuShown(!shouldProfileMenuShown)
+                  }
+                  className={cn(
+                    'eq group inline-block h-10 w-10 overflow-hidden rounded-full active:scale-105',
+                    auth?.user.photoUrl === '' &&
+                      'flex items-center justify-center bg-envy'
+                  )}
+                >
+                  {auth?.user.photoUrl === '' ? (
+                    <h6 className='font-bold'>
+                      {auth?.user.name?.charAt(0).toLocaleUpperCase()}
+                    </h6>
+                  ) : (
+                    <Image
+                      src={auth.user.photoUrl!}
+                      alt={auth.user.name!}
+                      width={128}
+                      height={128}
+                      priority
+                      className='eq h-full w-full object-cover  group-hover:brightness-75'
+                    />
+                  )}
+                </button>
 
-              {/* PROFILE MENU POP-UP */}
+                {/* PROFILE MENU POP-UP */}
+                {shouldProfileMenuShown && (
+                  <div className='absolute right-0 top-full z-[102] flex flex-col gap-3 rounded-xl border bg-white p-7 shadow-lg'>
+                    <CustomLink
+                      href='/profile'
+                      title='Profile'
+                      className='uppercase'
+                    />
+                    <Button onClick={() => dispatch(logout())} variant='danger'>
+                      Sign out
+                    </Button>
+                  </div>
+                )}
+              </div>
+
+              {/* PROFILE MENU POP-UP OVERLAY */}
               {shouldProfileMenuShown && (
-                <div className='absolute right-0 top-full z-[1] flex flex-col gap-3 rounded-xl border bg-white p-7 shadow-lg'>
-                  <Button onClick={() => dispatch(logout())} variant='danger'>
-                    Sign out
-                  </Button>
-                </div>
+                <div
+                  onClick={() => setShouldProfileMenuShown(false)}
+                  className='fixed bottom-0 left-0 right-0 top-0 z-[101] h-full w-full bg-transparent'
+                ></div>
               )}
-            </div>
+            </>
           )}
         </nav>
       </div>

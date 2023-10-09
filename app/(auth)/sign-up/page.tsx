@@ -16,14 +16,24 @@ import Link from 'next/link';
 import FooterMini from '@/components/shared/footer/footer-mini';
 import NavbarMini from '@/components/shared/navbar/navbar-mini';
 import Button from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
+import { useDispatch } from 'react-redux';
+import { fullUserType } from '@/types/full-user';
+import { axiosPost } from '@/lib/axios-post';
+import { login } from '@/redux/features/auth/authSlice';
+import toast from 'react-hot-toast';
+import {
+  registerValidator,
+  registerValidatorType,
+} from '@/validators/register-validator';
 
 interface FormData {
   name: string;
   photoUrl: string;
   email: string;
   password: string;
-  address?: string;
-  phoneNumber?: string;
+  address: string;
+  phoneNumber: string;
 }
 
 const SignUpPage = () => {
@@ -38,6 +48,9 @@ const SignUpPage = () => {
   const [formSubmitted, setFormSubmitted] = useState<boolean>(false);
 
   const { isScrolled } = useScrollContext();
+
+  const router = useRouter();
+  const dispath = useDispatch();
 
   const formSubject = useRef<Subject<void>>(new Subject<void>());
   const formSubscription = useRef<Subscription | null>(null);
@@ -54,17 +67,38 @@ const SignUpPage = () => {
         distinctUntilChanged(),
         takeUntil(formSubject.current)
       )
-      .subscribe(() => {
-        console.log(formData);
-        setFormData({
-          name: '',
-          photoUrl: '',
-          email: '',
-          password: '',
-          address: '',
-          phoneNumber: '',
-        });
-        setFormSubmitted(true);
+      .subscribe(async () => {
+        const { isValid, message }: registerValidatorType = registerValidator(
+          formData.email,
+          formData.password,
+          formData.photoUrl
+        );
+
+        if (isValid) {
+          const data: fullUserType = await axiosPost(
+            '/api/users/register',
+            formData
+          );
+
+          if (data) {
+            dispath(login(data));
+            router.push('/');
+            toast.success('Register success');
+            setFormData({
+              name: '',
+              photoUrl: '',
+              email: '',
+              password: '',
+              address: '',
+              phoneNumber: '',
+            });
+            setFormSubmitted(true);
+          }
+        } else {
+          message.email && toast.error(message.email);
+          message.password && toast.error(message.password);
+          message.photoUrl && toast.error(message.photoUrl);
+        }
       });
 
     return () => {
@@ -73,7 +107,7 @@ const SignUpPage = () => {
       }
       subjectRef.complete();
     };
-  }, [formData]);
+  }, [formData, router, dispath]);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -125,12 +159,13 @@ const SignUpPage = () => {
                   </label>
                   <input
                     className='eq w-full appearance-none rounded-lg border border-black/30 bg-transparent px-3 py-2.5 outline-none hover:border-black/50 focus:border-black'
-                    type='name'
+                    type='text'
                     value={formData.name}
                     onChange={handleInputChange}
                     placeholder='Sarah Parker'
                     id='name'
                     name='name'
+                    minLength={3}
                   />
                 </div>
 
@@ -143,7 +178,7 @@ const SignUpPage = () => {
                   </label>
                   <input
                     className='eq w-full appearance-none rounded-lg border border-black/30 bg-transparent px-3 py-2.5 outline-none hover:border-black/50 focus:border-black'
-                    type='photoUrl'
+                    type='text'
                     value={formData.photoUrl}
                     onChange={handleInputChange}
                     placeholder='Paste your photo url from pexels or cloudinary'
@@ -197,7 +232,7 @@ const SignUpPage = () => {
                   </label>
                   <input
                     className='eq w-full appearance-none rounded-lg border border-black/30 bg-transparent px-3 py-2.5 outline-none hover:border-black/50 focus:border-black'
-                    type='password'
+                    type='text'
                     value={formData.address}
                     onChange={handleInputChange}
                     placeholder='123 Main Street, TA'
@@ -215,7 +250,7 @@ const SignUpPage = () => {
                   </label>
                   <input
                     className='eq w-full appearance-none rounded-lg border border-black/30 bg-transparent px-3 py-2.5 outline-none hover:border-black/50 focus:border-black'
-                    type='phoneNumber'
+                    type='tel'
                     value={formData.phoneNumber}
                     onChange={handleInputChange}
                     placeholder='+123456789'

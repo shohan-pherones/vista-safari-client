@@ -114,12 +114,36 @@ const NavbarFull = () => {
 
                 {/* PROFILE MENU POP-UP */}
                 {shouldProfileMenuShown && (
-                  <div className='absolute right-0 top-full z-[102] flex flex-col gap-3 rounded-xl border bg-white p-7 shadow-lg'>
+                  <div className='absolute right-0 top-full z-[102] flex w-[20rem] flex-col gap-3 rounded-xl border bg-white p-7 shadow-lg'>
                     <CustomLink
                       href='/profile'
                       title='Profile'
                       className='uppercase'
                     />
+                    {auth?.user.role === 'admin' && (
+                      <>
+                        <CustomLink
+                          href='/admin/create/locations'
+                          title='Add New Location'
+                          className='uppercase'
+                        />
+                        <CustomLink
+                          href='/admin/manage/locations'
+                          title='Manage Locations'
+                          className='uppercase'
+                        />
+                        <CustomLink
+                          href='/admin/manage/users'
+                          title='Manage Users'
+                          className='uppercase'
+                        />
+                        <CustomLink
+                          href='/admin/manage/bookings'
+                          title='Manage Bookings'
+                          className='uppercase'
+                        />
+                      </>
+                    )}
                     <Button onClick={() => dispatch(logout())} variant='danger'>
                       Sign out
                     </Button>

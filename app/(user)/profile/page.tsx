@@ -6,12 +6,16 @@ import SectionTitle from '@/components/shared/section-title';
 import Button from '@/components/ui/button';
 import { RootState } from '@/redux/store';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 
 const ProfilePage = () => {
   const auth = useSelector((state: RootState) => state.auth.fullUser);
 
+  const router = useRouter();
+
   if (!auth?.user) {
+    router.push('/');
     return null;
   }
 
@@ -23,7 +27,10 @@ const ProfilePage = () => {
           <div className='col-span-1 h-full w-full overflow-hidden'>
             <div className='h-[40rem] w-full overflow-hidden rounded'>
               <Image
-                src={auth?.user.photoUrl!}
+                src={
+                  auth?.user.photoUrl! ||
+                  'https://images.pexels.com/photos/5929944/pexels-photo-5929944.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+                }
                 alt={auth?.user.name!}
                 width={360}
                 height={640}

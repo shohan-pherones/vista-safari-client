@@ -27,14 +27,14 @@ import { useDispatch } from 'react-redux';
 import { Subject, Subscription, fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
-interface FormData {
+interface SignInData {
   email: string;
   password: string;
 }
 
 const SignInPage = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<SignInData>({
     email: '',
     password: '',
   });

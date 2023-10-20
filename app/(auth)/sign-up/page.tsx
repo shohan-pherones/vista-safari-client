@@ -27,7 +27,7 @@ import { useDispatch } from 'react-redux';
 import { Subject, Subscription, fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
-interface FormData {
+interface SignUpdata {
   name: string;
   photoUrl: string;
   email: string;
@@ -38,7 +38,7 @@ interface FormData {
 
 const SignUpPage = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<SignUpdata>({
     name: '',
     photoUrl: '',
     email: '',

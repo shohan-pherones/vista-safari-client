@@ -1,17 +1,17 @@
 'use client';
 
-import Link from 'next/link';
-import CustomLink from '@/components/ui/custom-link';
-import SearchBar from './search-bar';
 import Button, { buttonVariants } from '@/components/ui/button';
+import CustomLink from '@/components/ui/custom-link';
 import { useScrollContext } from '@/contexts/scroll-context';
 import { cn } from '@/lib/utils';
+import { logout } from '@/redux/features/auth/authSlice';
+import { RootState } from '@/redux/store';
 import { menuType } from '@/types/menu';
+import Image from 'next/image';
+import Link from 'next/link';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
-import Image from 'next/image';
-import { logout } from '@/redux/features/auth/authSlice';
+import SearchBar from './search-bar';
 
 const menuItems = [
   {

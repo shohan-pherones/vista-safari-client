@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import ScrollContext, { ScrollContextType } from '@/contexts/scroll-context';
+import { useEffect, useState } from 'react';
 
 const ScrollProvider = ({ children }: { children: React.ReactNode }) => {
   const [isScrolled, setIsScrolled] = useState(false);

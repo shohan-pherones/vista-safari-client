@@ -1,5 +1,6 @@
-import { cva, VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
+import { cva, VariantProps } from 'class-variance-authority';
+import { Loader2 } from 'lucide-react';
 
 export const buttonVariants = cva(
   'inline-block text-center px-6 py-3 rounded-xl border eq font-medium active:scale-105 disabled:border-shred disabled:bg-sherd disabled:text-white disabled:cursor-not-allowed whitespace-nowrap uppercase',
@@ -27,7 +28,9 @@ export const buttonVariants = cva(
 
 interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {}
+    VariantProps<typeof buttonVariants> {
+  isLoading?: boolean;
+}
 
 const Button: React.FC<ButtonProps> = ({
   children,
@@ -36,14 +39,19 @@ const Button: React.FC<ButtonProps> = ({
   onClick,
   variant,
   size,
+  isLoading,
 }) => {
   return (
     <button
       onClick={onClick}
       type={type}
-      disabled={disabled}
-      className={cn(buttonVariants({ variant, size }))}
+      disabled={disabled || isLoading}
+      className={cn(
+        buttonVariants({ variant, size }),
+        isLoading && 'flex items-center justify-center gap-2'
+      )}
     >
+      {isLoading && <Loader2 size={20} className='animate-spin' />}
       {children}
     </button>
   );

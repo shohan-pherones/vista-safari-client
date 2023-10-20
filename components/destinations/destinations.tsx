@@ -1,11 +1,11 @@
 import useFetch from '@/hooks/useFetch';
-import SectionTitle from '../shared/section-title';
-import Loading from '../shared/loading';
-import Error from '../shared/error';
-import LocationCard from './location-card';
 import { locationType } from '@/types/location';
 import Link from 'next/link';
+import Error from '../shared/error';
+import Loading from '../shared/loading';
+import SectionTitle from '../shared/section-title';
 import { buttonVariants } from '../ui/button';
+import LocationCard from './location-card';
 
 interface DestinationsProps {
   fromThePage?: boolean;

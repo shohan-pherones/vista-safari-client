@@ -1,7 +1,20 @@
 'use client';
 
+import FooterMini from '@/components/shared/footer/footer-mini';
+import NavbarMini from '@/components/shared/navbar/navbar-mini';
+import Button from '@/components/ui/button';
 import { useScrollContext } from '@/contexts/scroll-context';
+import { axiosPost } from '@/lib/axios-post';
 import { cn } from '@/lib/utils';
+import { login } from '@/redux/features/auth/authSlice';
+import { fullUserType } from '@/types/full-user';
+import {
+  registerValidator,
+  registerValidatorType,
+} from '@/validators/register-validator';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import {
   ChangeEvent,
   SyntheticEvent,
@@ -9,23 +22,10 @@ import {
   useRef,
   useState,
 } from 'react';
+import toast from 'react-hot-toast';
+import { useDispatch } from 'react-redux';
 import { Subject, Subscription, fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
-import Image from 'next/image';
-import Link from 'next/link';
-import FooterMini from '@/components/shared/footer/footer-mini';
-import NavbarMini from '@/components/shared/navbar/navbar-mini';
-import Button from '@/components/ui/button';
-import { useRouter } from 'next/navigation';
-import { useDispatch } from 'react-redux';
-import { fullUserType } from '@/types/full-user';
-import { axiosPost } from '@/lib/axios-post';
-import { login } from '@/redux/features/auth/authSlice';
-import toast from 'react-hot-toast';
-import {
-  registerValidator,
-  registerValidatorType,
-} from '@/validators/register-validator';
 
 interface FormData {
   name: string;
@@ -37,6 +37,7 @@ interface FormData {
 }
 
 const SignUpPage = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [formData, setFormData] = useState<FormData>({
     name: '',
     photoUrl: '',
@@ -50,7 +51,7 @@ const SignUpPage = () => {
   const { isScrolled } = useScrollContext();
 
   const router = useRouter();
-  const dispath = useDispatch();
+  const dispatch = useDispatch();
 
   const formSubject = useRef<Subject<void>>(new Subject<void>());
   const formSubscription = useRef<Subscription | null>(null);
@@ -68,6 +69,8 @@ const SignUpPage = () => {
         takeUntil(formSubject.current)
       )
       .subscribe(async () => {
+        setIsLoading(true);
+
         const { isValid, message }: registerValidatorType = registerValidator(
           formData.email,
           formData.password,
@@ -81,7 +84,7 @@ const SignUpPage = () => {
           );
 
           if (data) {
-            dispath(login(data));
+            dispatch(login(data));
             router.push('/');
             toast.success('Register success');
             setFormData({
@@ -93,11 +96,15 @@ const SignUpPage = () => {
               phoneNumber: '',
             });
             setFormSubmitted(true);
+            setIsLoading(false);
+          } else {
+            setIsLoading(false);
           }
         } else {
           message.email && toast.error(message.email);
           message.password && toast.error(message.password);
           message.photoUrl && toast.error(message.photoUrl);
+          setIsLoading(false);
         }
       });
 
@@ -107,7 +114,7 @@ const SignUpPage = () => {
       }
       subjectRef.complete();
     };
-  }, [formData, router, dispath]);
+  }, [formData, router, dispatch]);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -259,7 +266,7 @@ const SignUpPage = () => {
                   />
                 </div>
               </div>
-              <Button type='submit' size={'full'}>
+              <Button type='submit' size='full' isLoading={isLoading}>
                 Register
               </Button>
               <p className='mt-2.5'>

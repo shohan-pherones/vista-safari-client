@@ -1,7 +1,20 @@
 'use client';
 
+import FooterMini from '@/components/shared/footer/footer-mini';
+import NavbarMini from '@/components/shared/navbar/navbar-mini';
+import Button from '@/components/ui/button';
 import { useScrollContext } from '@/contexts/scroll-context';
+import { axiosPost } from '@/lib/axios-post';
 import { cn } from '@/lib/utils';
+import { login } from '@/redux/features/auth/authSlice';
+import { fullUserType } from '@/types/full-user';
+import {
+  loginValidator,
+  loginValidatorType,
+} from '@/validators/login-validator';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import {
   ChangeEvent,
   SyntheticEvent,
@@ -9,23 +22,10 @@ import {
   useRef,
   useState,
 } from 'react';
+import { toast } from 'react-hot-toast';
+import { useDispatch } from 'react-redux';
 import { Subject, Subscription, fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
-import Image from 'next/image';
-import Link from 'next/link';
-import FooterMini from '@/components/shared/footer/footer-mini';
-import NavbarMini from '@/components/shared/navbar/navbar-mini';
-import Button from '@/components/ui/button';
-import { axiosPost } from '@/lib/axios-post';
-import { useRouter } from 'next/navigation';
-import { toast } from 'react-hot-toast';
-import {
-  loginValidator,
-  loginValidatorType,
-} from '@/validators/login-validator';
-import { useDispatch } from 'react-redux';
-import { fullUserType } from '@/types/full-user';
-import { login } from '@/redux/features/auth/authSlice';
 
 interface FormData {
   email: string;
@@ -33,6 +33,7 @@ interface FormData {
 }
 
 const SignInPage = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [formData, setFormData] = useState<FormData>({
     email: '',
     password: '',
@@ -42,7 +43,7 @@ const SignInPage = () => {
   const { isScrolled } = useScrollContext();
 
   const router = useRouter();
-  const dispath = useDispatch();
+  const dispatch = useDispatch();
 
   const formSubject = useRef<Subject<void>>(new Subject<void>());
   const formSubscription = useRef<Subscription | null>(null);
@@ -60,6 +61,8 @@ const SignInPage = () => {
         takeUntil(formSubject.current)
       )
       .subscribe(async () => {
+        setIsLoading(true);
+
         const { isValid, message }: loginValidatorType = loginValidator(
           formData.email,
           formData.password
@@ -72,7 +75,7 @@ const SignInPage = () => {
           );
 
           if (data) {
-            dispath(login(data));
+            dispatch(login(data));
             router.push('/');
             toast.success('Login success');
             setFormData({
@@ -80,10 +83,14 @@ const SignInPage = () => {
               password: '',
             });
             setFormSubmitted(true);
+            setIsLoading(false);
+          } else {
+            setIsLoading(false);
           }
         } else {
           message.email && toast.error(message.email);
           message.password && toast.error(message.password);
+          setIsLoading(false);
         }
       });
 
@@ -93,7 +100,7 @@ const SignInPage = () => {
       }
       subjectRef.complete();
     };
-  }, [formData, router, dispath]);
+  }, [formData, router, dispatch, isLoading]);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -172,7 +179,7 @@ const SignInPage = () => {
                   />
                 </div>
               </div>
-              <Button type='submit' size='full'>
+              <Button type='submit' size='full' isLoading={isLoading}>
                 Login
               </Button>
               <p className='mt-2.5'>

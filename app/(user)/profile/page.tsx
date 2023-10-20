@@ -4,8 +4,8 @@ import FooterMini from '@/components/shared/footer/footer-mini';
 import NavbarFull from '@/components/shared/navbar/navbar-full';
 import SectionTitle from '@/components/shared/section-title';
 import Button from '@/components/ui/button';
-import Image from 'next/image';
 import { RootState } from '@/redux/store';
+import Image from 'next/image';
 import { useSelector } from 'react-redux';
 
 const ProfilePage = () => {

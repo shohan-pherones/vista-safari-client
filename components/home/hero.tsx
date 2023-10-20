@@ -1,8 +1,8 @@
 'use client';
 
+import { Space_Grotesk } from 'next/font/google';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Space_Grotesk } from 'next/font/google';
 import { FaMapLocationDot } from 'react-icons/fa6';
 
 const spaceGrotesk = Space_Grotesk({ subsets: ['latin'] });

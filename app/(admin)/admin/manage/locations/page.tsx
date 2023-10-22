@@ -1,12 +1,20 @@
-import FooterMini from '@/components/shared/footer/footer-mini';
 import NavbarFull from '@/components/shared/navbar/navbar-full';
+import SectionTitle from '@/components/shared/section-title';
+import LocationTable from './_components/location-table';
 
 const ManageLocationsPage = () => {
   return (
     <>
       <NavbarFull />
-      <main>ManageLocationsPage</main>
-      <FooterMini />
+      <main>
+        <section className='container py-20'>
+          <SectionTitle
+            subtitle='Manage Locations'
+            title='Update location details'
+          />
+          <LocationTable />
+        </section>
+      </main>
     </>
   );
 };

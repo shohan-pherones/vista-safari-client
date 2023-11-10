@@ -40,8 +40,8 @@ const LocationCard: React.FC<LocationCardProps> = ({ location, index }) => {
             {location.description.substring(0, 100)}...
           </p>
           <p className='font-semibold uppercase tracking-wider'>
-            Tour Package{location.tourPackages.length > 1 ? 's' : null}:{' '}
-            {location.tourPackages.length}
+            Tour Package{location?.tourPackages?.length! > 1 ? 's' : null}:{' '}
+            {location?.tourPackages?.length}
           </p>
           <Link
             href={`/destinations/${location._id}`}

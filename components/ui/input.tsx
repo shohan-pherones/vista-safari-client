@@ -4,7 +4,7 @@ interface InputProps<T> {
   type?: string;
   formData: T;
   setFormData: (formData: T) => void;
-  placeholder: string;
+  placeholder?: string;
 }
 
 const Input = <T,>({

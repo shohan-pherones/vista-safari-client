@@ -3,6 +3,7 @@
 import Error from '@/components/shared/error';
 import Loading from '@/components/shared/loading';
 import Button from '@/components/ui/button';
+import HorizontalTab from '@/components/ui/horizontal-tab';
 import Input from '@/components/ui/input';
 import Textarea from '@/components/ui/textare';
 import useFetch from '@/hooks/useFetch';
@@ -19,6 +20,10 @@ import { useCallback, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 import { LocationData } from '../../../create/locations/page';
+import ResortAddingForm from './resort-adding-form';
+import RestaurantAddingForm from './restaurant-adding-form';
+import SpotAddingForm from './spot-adding-form';
+import TourPackageAddingForm from './tour_package-adding-form';
 
 interface UpdatedLocationData extends LocationData {
   id: string | undefined;
@@ -26,9 +31,12 @@ interface UpdatedLocationData extends LocationData {
 
 const LocationTable = () => {
   const auth = useSelector((state: RootState) => state.auth.fullUser);
+
   const [shouldLocationUpdateModalOpen, setShouldLocationUpdateModalOpen] =
     useState<boolean>(false);
   const [shouldLocationDeleteModalOpen, setShouldLocationDeleteModalOpen] =
+    useState<boolean>(false);
+  const [shouldAddItemsModalOpen, setShouldAddItemsModalOpen] =
     useState<boolean>(false);
   const [formData, setFormData] = useState<UpdatedLocationData>({
     id: '',
@@ -41,6 +49,8 @@ const LocationTable = () => {
   const [isLocationDeleteLoading, setIsLocationDeleteLoading] =
     useState<boolean>(false);
   const [containerFormDeleteLocation, setContainerFormDeleteLocation] =
+    useState<locationType | null>(null);
+  const [locationDataForAddModal, setlocationDataForAddModal] =
     useState<locationType | null>(null);
 
   const {
@@ -138,7 +148,19 @@ const LocationTable = () => {
           <thead className='border-b font-medium uppercase'>
             <tr>
               <th scope='col' className='px-6 py-4'>
-                Name
+                Location Name
+              </th>
+              <th scope='col' className='px-6 py-4'>
+                Resorts
+              </th>
+              <th scope='col' className='px-6 py-4'>
+                Spots
+              </th>
+              <th scope='col' className='px-6 py-4'>
+                Restaurants
+              </th>
+              <th scope='col' className='px-6 py-4'>
+                Tour Packages
               </th>
               <th scope='col' className='px-6 py-4'>
                 Actions
@@ -149,6 +171,18 @@ const LocationTable = () => {
             {locations.map((location: locationType) => (
               <tr className='border-b' key={location._id}>
                 <td className='whitespace-nowrap px-6 py-4'>{location.name}</td>
+                <td className='whitespace-nowrap px-6 py-4'>
+                  {location.resorts?.length}
+                </td>
+                <td className='whitespace-nowrap px-6 py-4'>
+                  {location.spots?.length}
+                </td>
+                <td className='whitespace-nowrap px-6 py-4'>
+                  {location.restaurants?.length}
+                </td>
+                <td className='whitespace-nowrap px-6 py-4'>
+                  {location.tourPackages?.length}
+                </td>
                 <td className='flex items-center gap-2.5 whitespace-nowrap px-6 py-4'>
                   <Button onClick={() => handleLocationUpdate(location)}>
                     Update
@@ -159,7 +193,15 @@ const LocationTable = () => {
                   >
                     Delete
                   </Button>
-                  <Button variant='secondary'>Add</Button>
+                  <Button
+                    variant='secondary'
+                    onClick={() => {
+                      setShouldAddItemsModalOpen(true);
+                      setlocationDataForAddModal(location);
+                    }}
+                  >
+                    Add
+                  </Button>
                 </td>
               </tr>
             ))}
@@ -230,6 +272,29 @@ const LocationTable = () => {
             >
               Confirm
             </Button>
+          </div>
+        </div>
+      )}
+
+      {shouldAddItemsModalOpen && (
+        <div className='absolute left-1/2 top-1/2 z-[1] w-full -translate-x-1/2 -translate-y-1/2 rounded-xl bg-white p-10 shadow-2xl lg:w-1/2'>
+          <div
+            onClick={() => setShouldAddItemsModalOpen(false)}
+            className='eq absolute right-7 top-7 z-[2] flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border hover:bg-white hover:shadow-xl'
+          >
+            <X />
+          </div>
+
+          <div className='space-y-10'>
+            <h4>Add items to this location</h4>
+            <HorizontalTab
+              tabs={['Resort', 'Spot', 'Restaurant', 'Tour Package']}
+            >
+              <ResortAddingForm location={locationDataForAddModal} />
+              <SpotAddingForm location={locationDataForAddModal} />
+              <RestaurantAddingForm location={locationDataForAddModal} />
+              <TourPackageAddingForm location={locationDataForAddModal} />
+            </HorizontalTab>
           </div>
         </div>
       )}
